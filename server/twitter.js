@@ -1,5 +1,9 @@
+const Twitter = require("twitter");
 const https = require("https");
 const { Key, Secret } = require("../secrets.json");
+
+let bearer_token;
+let twitterClient;
 
 function getToken() {
     const basic_header = Buffer.from(`${Key}:${Secret}`).toString("base64");
@@ -44,4 +48,27 @@ function makeRequest(options, requestBody) {
     });
 }
 
-module.exports = { getToken };
+async function getTwitterClient() {
+    if (!bearer_token) {
+        bearer_token = await getToken();
+    }
+    if (!twitterClient) {
+        twitterClient = new Twitter({
+            consumer_key: Key,
+            consumer_secret: Secret,
+            bearer_token,
+        });
+    }
+    return twitterClient;
+}
+
+async function getTweets(screen_name) {
+    const client = await getTwitterClient();
+    const results = await client.get("statuses/user_timeline", {
+        screen_name: screen_name,
+        tweet_mode: "extended",
+    });
+    return results;
+}
+
+module.exports = { getTweets };

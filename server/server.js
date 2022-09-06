@@ -2,9 +2,8 @@ const express = require("express");
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
-const Twitter = require("twitter");
-const { getToken } = require("./OAuth-2-App-Only");
-const { Key, Secret } = require("../secrets.json");
+
+const { getTweets } = require("./twitter");
 
 // build app
 const app = express();
@@ -24,34 +23,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.urlencoded({ extended: false }));
 
-// create twitter client
-
-getToken().then((token) => {
-    var client = new Twitter({
-        consumer_key: `${Key}`,
-        consumer_secret: `${Secret}`,
-        bearer_token: token,
-    });
-
-    var params = { screen_name: "BBCNews" };
-    client.get(
-        "statuses/user_timeline",
-        params,
-        function (error, tweets, response) {
-            if (!error) {
-                // console.log(tweets);
-                return tweets;
-            } else {
-                return error;
-            }
-        }
-    );
-});
-
 // Route homepage
+
 app.get("/api/city/me", async (request, response) => {
-    const searchResults = await getToken();
-    response.json(searchResults);
+    const cityResults = await getTweets("polizeiberlin");
+    console.log("cityResults no.", cityResults.length);
+    response.json(cityResults);
 });
 
 app.get("*", function (req, res) {
