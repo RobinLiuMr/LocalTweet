@@ -4,6 +4,7 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 
 const { getTweets } = require("./twitter");
+const accounts = require("./accounts.json");
 
 // build app
 const app = express();
@@ -23,12 +24,17 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.urlencoded({ extended: false }));
 
-// Route homepage
+// Route search
 
-app.get("/api/city/me", async (request, response) => {
-    const cityResults = await getTweets("polizeiberlin");
-    console.log("cityResults no.", cityResults.length);
-    response.json(cityResults);
+app.get("/api/twitters/search", async (request, response) => {
+    // get the screen_name from accounts.json
+
+    const cityAccounts = accounts.find(({ city }) => city === "Berlin");
+    console.log("cityAccounts", cityAccounts);
+
+    const searchResults = await getTweets(cityAccounts.accounts[1]);
+    console.log("searchResults length", searchResults.length);
+    response.json(searchResults);
 });
 
 app.get("*", function (req, res) {
