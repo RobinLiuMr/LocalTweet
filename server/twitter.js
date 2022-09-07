@@ -63,13 +63,16 @@ async function getTwitterClient() {
 }
 
 async function getTweets({ screen_name, LIMIT = 3 }) {
-    console.log("LIMIT inside twitter.js", LIMIT);
     const client = await getTwitterClient();
     const results = await client.get("statuses/user_timeline", {
         screen_name,
         tweet_mode: "extended",
     });
     return results.slice(0, LIMIT);
+}
+
+function unwrap({ created_at, id, full_text }) {
+    return { created_at, id, full_text };
 }
 
 module.exports = { getTweets };

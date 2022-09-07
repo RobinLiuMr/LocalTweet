@@ -1,7 +1,4 @@
 import ReactDOM from "react-dom";
+import Homepage from "./Homepage";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
-
-function HelloWorld() {
-    return <div>Hello, World!</div>;
-}
+ReactDOM.render(<Homepage />, document.querySelector("main"));
