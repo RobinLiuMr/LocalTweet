@@ -28,20 +28,15 @@ app.use(express.urlencoded({ extended: false }));
 
 app.get("/api/twitters/search", async (request, response) => {
     let queryCity = request.query.q;
-    console.log("queryCity", queryCity);
 
-    const source = sources.find(
+    const { screen_names } = sources.find(
         ({ city }) => city.toLowerCase() === queryCity.toLowerCase()
     );
-    console.log("source", source);
+    console.log("screen_names", screen_names);
 
-    const tasks = [];
+    const tasks = screen_names.map((screen_name) => getTweets({ screen_name }));
 
-    source.screen_names.forEach((screen_name) => {
-        const newTask = getTweets({ screen_name });
-        // const newTask = getTweets({ screen_name, LIMIT: request.query.limit }); backup for ...more option
-        tasks.push(newTask);
-    });
+    // getTweets({ screen_name, LIMIT: request.query.limit }); backup for ...more option
 
     let searchResults = await Promise.all(tasks);
 
