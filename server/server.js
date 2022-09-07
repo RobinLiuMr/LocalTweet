@@ -4,7 +4,7 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 
 const { getTweets } = require("./twitter");
-const accounts = require("./accounts.json");
+const sources = require("./city-important-info-twitters.json");
 
 // build app
 const app = express();
@@ -27,12 +27,24 @@ app.use(express.urlencoded({ extended: false }));
 // Route search
 
 app.get("/api/twitters/search", async (request, response) => {
-    // get the screen_name from accounts.json
+    let queryCity = request.query.q;
+    console.log("queryCity", queryCity);
 
-    const cityAccounts = accounts.find(({ city }) => city === "Berlin");
-    console.log("cityAccounts", cityAccounts);
+    const source = sources.find(
+        ({ city }) => city.toLowerCase() === queryCity.toLowerCase()
+    );
+    console.log("source", source);
 
-    const searchResults = await getTweets(cityAccounts.accounts[1]);
+    const tasks = [];
+
+    source.screen_names.forEach((screen_name) => {
+        const newTask = getTweets({ screen_name });
+        // const newTask = getTweets({ screen_name, LIMIT: request.query.limit }); backup for ...more option
+        tasks.push(newTask);
+    });
+
+    let searchResults = await Promise.all(tasks);
+
     console.log("searchResults length", searchResults.length);
     response.json(searchResults);
 });

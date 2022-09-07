@@ -1,0 +1,16 @@
+[
+    {
+        "city": "Frankfurt",
+        "screen_names": ["Stadt_FFM", "polizei_ffm", "vgf_ffm"]
+    },
+
+    {
+        "city": "Berlin",
+        "screen_names": ["wir_berlin", "polizeiberlin", "sbahnberlin"]
+    },
+
+    {
+        "city": "Hamburg",
+        "screen_names": ["buergerschaftHH", "polizeihamburg", "SBahnHamburg"]
+    }
+]
