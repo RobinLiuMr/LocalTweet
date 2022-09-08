@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function Homepage() {
     const [searchResults, setSearchResults] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
     // default city Frankfurt
     useEffect(() => {
         fetch("/api/twitters/search?q=Frankfurt")
@@ -11,13 +12,27 @@ export default function Homepage() {
             });
     }, []);
 
+    function onSearch(event) {
+        event.preventDefault();
+
+        fetch(`/api/twitters/search?q=${searchTerm}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setSearchResults(data);
+            });
+    }
+
+    function handelChange(event) {
+        setSearchTerm(event.target.value);
+    }
+
     return (
         <div>
             <header className="flex flex-row justify-center">
                 {/* modified on https://www.hyperui.dev/components/application-ui/inputs */}
                 <label
                     className="relative block p-3 border-2 border-gray-200 rounded-lg"
-                    htmlFor="name"
+                    htmlFor="city"
                 >
                     <span
                         className="text-xs font-medium text-gray-500"
@@ -27,7 +42,9 @@ export default function Homepage() {
                     </span>
                     <input
                         className="w-full p-0 text-sm border-none focus:ring-0"
-                        id="name"
+                        id="city"
+                        value={searchTerm}
+                        onChange={handelChange}
                         type="text"
                         placeholder="Frankfurt"
                     />
@@ -35,6 +52,7 @@ export default function Homepage() {
 
                 {/* modified on https://www.hyperui.dev/components/marketing/buttons */}
                 <a
+                    onClick={onSearch}
                     className="inline-flex items-center px-5 py-3 text-sm font-medium text-white transition-colors bg-[#55acee] border-2 border-[#55acee] rounded hover:bg-transparent hover:text-[#55acee] focus:outline-none focus:ring active:opacity-75"
                     href="#"
                     target="_blank"
@@ -107,7 +125,8 @@ export default function Homepage() {
                                             </h3>
                                             <p className="mt-1 text-sm text-gray-300">
                                                 {channel.full_text}
-                                                <tr></tr>
+                                            </p>
+                                            <p className="mt-1 text-sm text-gray-300">
                                                 {channel.created_at}
                                             </p>
                                         </a>
