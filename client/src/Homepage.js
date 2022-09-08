@@ -32,6 +32,22 @@ export default function Homepage() {
         setSearchTerm(event.target.value);
     }
 
+    function onZero() {
+        document.getElementsByClassName("0")[0].style.display = "";
+        document.getElementsByClassName("1")[0].style.display = "none";
+        document.getElementsByClassName("2")[0].style.display = "none";
+    }
+    function onOne() {
+        document.getElementsByClassName("0")[0].style.display = "none";
+        document.getElementsByClassName("1")[0].style.display = "";
+        document.getElementsByClassName("2")[0].style.display = "none";
+    }
+    function onTwo() {
+        document.getElementsByClassName("2")[0].style.display = "";
+        document.getElementsByClassName("1")[0].style.display = "none";
+        document.getElementsByClassName("0")[0].style.display = "none";
+    }
+
     return (
         <div>
             <header className="flex flex-row justify-center">
@@ -80,18 +96,21 @@ export default function Homepage() {
                 {/* modified on https://www.hyperui.dev/components/application-ui/button-groups */}
                 <div className="inline-flex items-center text-xs -space-x-px rounded-md">
                     <button
+                        onClick={onZero}
                         className="px-5 py-3 font-medium border rounded-l-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75"
                         type="button"
                     >
                         Regierung
                     </button>
                     <button
+                        onClick={onOne}
                         className="px-5 py-3 font-medium border hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75"
                         type="button"
                     >
                         Polizei
                     </button>
                     <button
+                        onClick={onTwo}
                         className="px-5 py-3 font-medium border rounded-r-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75"
                         type="button"
                     >
