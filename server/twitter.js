@@ -68,11 +68,24 @@ async function getTweets({ screen_name, LIMIT = 3 }) {
         screen_name,
         tweet_mode: "extended",
     });
-    return results.slice(0, LIMIT);
+
+    const latestResult = results.slice(0, LIMIT);
+
+    return filterData(latestResult);
 }
 
-function unwrap({ created_at, id, full_text }) {
-    return { created_at, id, full_text };
+function filterData(tweets) {
+    return tweets.map(
+        ({ created_at, id_str, full_text, user: { name, screen_name } }) => {
+            return {
+                created_at,
+                id_str,
+                full_text,
+                name,
+                screen_name,
+            };
+        }
+    );
 }
 
 module.exports = { getTweets };

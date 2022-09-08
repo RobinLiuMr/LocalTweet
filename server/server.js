@@ -41,7 +41,7 @@ app.get("/api/twitters/search", async (request, response) => {
     let searchResults = await Promise.all(tasks);
 
     console.log("searchResults length", searchResults.length);
-    response.json(searchResults.length);
+    response.json(searchResults);
 });
 
 app.get("*", function (req, res) {

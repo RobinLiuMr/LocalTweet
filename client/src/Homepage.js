@@ -40,7 +40,7 @@ export default function Homepage() {
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Check
+                    Jetzt sehen
                     <svg
                         className="w-5 h-5 ml-2"
                         fill="currentColor"
@@ -83,104 +83,37 @@ export default function Homepage() {
                             <h2 className="text-3xl font-bold sm:text-4xl">
                                 Local most important information on Twitter
                             </h2>
-                            <div>
-                                Got {searchResults}
-                                {/* {searchResults.map((source, index) => (
-                                    <div key={index}>
-                                        {source.map((channel) => (
-                                            <p key={channel.id}>
-                                                {channel.user.screen_name}
-                                            </p>
-                                        ))}
-                                    </div>
-                                ))} */}
-                            </div>
                         </div>
+
                         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                            <a
-                                className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                href="#"
-                            >
-                                <h3 className="mt-4 text-xl font-bold text-white">
-                                    Digital campaigns
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ex ut quo possimus
-                                    adipisci distinctio alias voluptatum
-                                    blanditiis laudantium.
-                                </p>
-                            </a>
-                            <a
-                                className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                href="#"
-                            >
-                                <h3 className="mt-4 text-xl font-bold text-white">
-                                    Digital campaigns
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ex ut quo possimus
-                                    adipisci distinctio alias voluptatum
-                                    blanditiis laudantium.
-                                </p>
-                            </a>
-                            <a
-                                className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                href="#"
-                            >
-                                <h3 className="mt-4 text-xl font-bold text-white">
-                                    Digital campaigns
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ex ut quo possimus
-                                    adipisci distinctio alias voluptatum
-                                    blanditiis laudantium.
-                                </p>
-                            </a>
-                            <a
-                                className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                href="#"
-                            >
-                                <h3 className="mt-4 text-xl font-bold text-white">
-                                    Digital campaigns
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ex ut quo possimus
-                                    adipisci distinctio alias voluptatum
-                                    blanditiis laudantium.
-                                </p>
-                            </a>
-                            <a
-                                className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                href="#"
-                            >
-                                <h3 className="mt-4 text-xl font-bold text-white">
-                                    Digital campaigns
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ex ut quo possimus
-                                    adipisci distinctio alias voluptatum
-                                    blanditiis laudantium.
-                                </p>
-                            </a>
-                            <a
-                                className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                href="#"
-                            >
-                                <h3 className="mt-4 text-xl font-bold text-white">
-                                    Digital campaigns
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ex ut quo possimus
-                                    adipisci distinctio alias voluptatum
-                                    blanditiis laudantium.
-                                </p>
-                            </a>
+                            {searchResults.map((source, index) => (
+                                <div key={index} className={index}>
+                                    {source.map((channel) => (
+                                        <a
+                                            key={channel.id_str}
+                                            className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
+                                            href={
+                                                "https://twitter.com/" +
+                                                channel.screen_name +
+                                                "/status/" +
+                                                channel.id_str
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <h3 className="mt-4 text-xl font-bold text-white">
+                                                {channel.name} @
+                                                {channel.screen_name}
+                                            </h3>
+                                            <p className="mt-1 text-sm text-gray-300">
+                                                {channel.full_text}
+                                                <tr></tr>
+                                                {channel.created_at}
+                                            </p>
+                                        </a>
+                                    ))}
+                                </div>
+                            ))}
                         </div>
                         <div className="mt-12 text-center">
                             <a
