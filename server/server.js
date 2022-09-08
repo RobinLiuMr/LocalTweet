@@ -29,10 +29,19 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/api/twitters/search", async (request, response) => {
     let queryCity = request.query.q;
 
-    const { screen_names } = sources.find(
-        ({ city }) => city.toLowerCase() === queryCity.toLowerCase()
-    );
-    console.log("screen_names", screen_names);
+    const supportCity =
+        null ||
+        sources.find(
+            ({ city }) => city.toLowerCase() === queryCity.toLowerCase()
+        );
+    console.log("supportCity", supportCity);
+
+    if (!supportCity) {
+        response.json(null);
+        return;
+    }
+
+    const { screen_names } = supportCity;
 
     const tasks = screen_names.map((screen_name) => getTweets({ screen_name }));
 

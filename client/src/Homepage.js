@@ -18,6 +18,12 @@ export default function Homepage() {
         fetch(`/api/twitters/search?q=${searchTerm}`)
             .then((response) => response.json())
             .then((data) => {
+                if (!data) {
+                    alert(
+                        "To be added...For now, only support Frankfurt, Berlin, and Hamburg"
+                    );
+                    return;
+                }
                 setSearchResults(data);
             });
     }
