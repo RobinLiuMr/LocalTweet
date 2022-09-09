@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
+import CategoryTwitters from "./CategoryTwitters";
+
+const categories = ["Regierung", "Polizei", "Verkehr"];
 
 export default function Homepage() {
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [categoryIndex, setCategoryIndex] = useState(0);
     // default city Frankfurt
     useEffect(() => {
         fetch("/api/twitters/search?q=Frankfurt")
@@ -20,7 +24,7 @@ export default function Homepage() {
             .then((data) => {
                 if (!data) {
                     alert(
-                        "To be added...For now, only support Frankfurt, Berlin, and Hamburg"
+                        "To be added...For now, only support Frankfurt, Berlin, and Hamburg."
                     );
                     return;
                 }
@@ -32,20 +36,14 @@ export default function Homepage() {
         setSearchTerm(event.target.value);
     }
 
-    function onZero() {
-        document.getElementsByClassName("0")[0].style.display = "";
-        document.getElementsByClassName("1")[0].style.display = "none";
-        document.getElementsByClassName("2")[0].style.display = "none";
-    }
-    function onOne() {
-        document.getElementsByClassName("0")[0].style.display = "none";
-        document.getElementsByClassName("1")[0].style.display = "";
-        document.getElementsByClassName("2")[0].style.display = "none";
-    }
-    function onTwo() {
-        document.getElementsByClassName("2")[0].style.display = "";
-        document.getElementsByClassName("1")[0].style.display = "none";
-        document.getElementsByClassName("0")[0].style.display = "none";
+    function onMore(event) {
+        event.preventDefault();
+
+        fetch(`/api/twitters/more`)
+            .then((response) => response.json())
+            .then((data) => {
+                setSearchResults(data);
+            });
     }
 
     return (
@@ -94,28 +92,19 @@ export default function Homepage() {
 
             <main className="text-white bg-gray-900">
                 {/* modified on https://www.hyperui.dev/components/application-ui/button-groups */}
-                <div className="inline-flex items-center text-xs -space-x-px rounded-md">
-                    <button
-                        onClick={onZero}
-                        className="px-5 py-3 font-medium border rounded-l-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75"
-                        type="button"
-                    >
-                        Regierung
-                    </button>
-                    <button
-                        onClick={onOne}
-                        className="px-5 py-3 font-medium border hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75"
-                        type="button"
-                    >
-                        Polizei
-                    </button>
-                    <button
-                        onClick={onTwo}
-                        className="px-5 py-3 font-medium border rounded-r-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75"
-                        type="button"
-                    >
-                        Verkehr
-                    </button>
+                <div className="inline-flex items-center text-xs -space-x-px rounded-md lg:hidden">
+                    {categories.map((category, index) => (
+                        <button
+                            key={category}
+                            onClick={() => setCategoryIndex(index)}
+                            className={`px-5 py-3 font-medium border rounded-l-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75 ${
+                                index == categoryIndex ? "bg-[#55acee]" : ""
+                            }`}
+                            type="button"
+                        >
+                            {category}
+                        </button>
+                    ))}
                 </div>
 
                 {/* modified on https://www.hyperui.dev/components/marketing/sections */}
@@ -128,45 +117,38 @@ export default function Homepage() {
                             </h2>
                         </div>
 
-                        <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                            {searchResults.map((source, index) => (
-                                <div key={index} className={index}>
-                                    {source.map((channel) => (
-                                        <a
-                                            key={channel.id_str}
-                                            className="block p-8 border border-gray-800 shadow-xl transition rounded-xl hover:shadow-pink-500/10 hover:border-pink-500/10"
-                                            href={
-                                                "https://twitter.com/" +
-                                                channel.screen_name +
-                                                "/status/" +
-                                                channel.id_str
-                                            }
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            <h3 className="mt-4 text-xl font-bold text-white">
-                                                {channel.name} @
-                                                {channel.screen_name}
-                                            </h3>
-                                            <p className="mt-1 text-sm text-gray-300">
-                                                {channel.full_text}
-                                            </p>
-                                            <p className="mt-1 text-sm text-gray-300">
-                                                {channel.created_at}
-                                            </p>
-                                        </a>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
+                        <CategoryTwitters
+                            ClassName="lg:hidden"
+                            searchResults={searchResults}
+                            categoryIndex={categoryIndex}
+                        />
+
+                        <CategoryTwitters
+                            ClassName="hidden lg:grid"
+                            searchResults={searchResults}
+                            categoryIndex={0}
+                        />
+
+                        <CategoryTwitters
+                            ClassName="hidden lg:grid"
+                            searchResults={searchResults}
+                            categoryIndex={1}
+                        />
+
+                        <CategoryTwitters
+                            ClassName="hidden lg:grid"
+                            searchResults={searchResults}
+                            categoryIndex={2}
+                        />
+
                         <div className="mt-12 text-center">
                             <a
+                                onClick={onMore}
                                 className="inline-flex items-center px-8 py-3 mt-8 text-white bg-pink-600 border border-pink-600 rounded hover:bg-transparent active:text-pink-500 focus:outline-none focus:ring"
                                 href="#"
                             >
                                 <span className="text-sm font-medium">
-                                    {" "}
-                                    Get Started{" "}
+                                    Nur einmal mehr
                                 </span>
                             </a>
                         </div>

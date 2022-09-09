@@ -41,16 +41,32 @@ app.get("/api/twitters/search", async (request, response) => {
         return;
     }
 
+    request.session.current_city = supportCity;
+
     const { screen_names } = supportCity;
 
     const tasks = screen_names.map((screen_name) => getTweets({ screen_name }));
-
-    // getTweets({ screen_name, LIMIT: request.query.limit }); backup for ...more option
 
     let searchResults = await Promise.all(tasks);
 
     console.log("searchResults length", searchResults.length);
     response.json(searchResults);
+});
+
+// Route more
+app.get("/api/twitters/more", async (request, response) => {
+    const { screen_names } = request.session.current_city;
+
+    const tasks = screen_names.map((screen_name) =>
+        getTweets({ screen_name, LIMIT: 6 })
+    );
+
+    // getTweets({ screen_name, LIMIT: request.query.limit }); backup for ...more option
+
+    let moreResults = await Promise.all(tasks);
+
+    console.log("moreResults length", moreResults.length);
+    response.json(moreResults);
 });
 
 app.get("*", function (req, res) {
