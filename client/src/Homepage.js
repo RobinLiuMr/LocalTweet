@@ -51,17 +51,17 @@ export default function Homepage() {
             <header className="flex flex-row justify-center">
                 {/* modified on https://www.hyperui.dev/components/application-ui/inputs */}
                 <label
-                    className="relative block p-3 border-2 border-gray-200 rounded-lg"
+                    className="relative block p-3 rounded-lg lg:w-1/5"
                     htmlFor="city"
                 >
                     <span
-                        className="text-xs font-medium text-gray-500"
+                        className="text-md font-medium text-gray-500"
                         htmlFor="name"
                     >
                         Stadt
                     </span>
                     <input
-                        className="w-full p-0 text-sm border-none focus:ring-0"
+                        className="w-full p-0 text-md border-none focus:ring-0"
                         id="city"
                         value={searchTerm}
                         onChange={handelChange}
@@ -73,7 +73,7 @@ export default function Homepage() {
                 {/* modified on https://www.hyperui.dev/components/marketing/buttons */}
                 <a
                     onClick={onSearch}
-                    className="inline-flex items-center px-5 py-3 text-sm font-medium text-white transition-colors bg-[#55acee] border-2 border-[#55acee] rounded hover:bg-transparent hover:text-[#55acee] focus:outline-none focus:ring active:opacity-75"
+                    className="inline-flex items-center px-2 py-2 text-md font-medium text-white transition-colors bg-[#55acee]  rounded hover:bg-transparent hover:text-[#55acee] focus:outline-none focus:ring active:opacity-75"
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -92,12 +92,12 @@ export default function Homepage() {
 
             <main className="text-white bg-gray-900">
                 {/* modified on https://www.hyperui.dev/components/application-ui/button-groups */}
-                <div className="inline-flex items-center text-xs -space-x-px rounded-md lg:hidden">
+                <div className="flex justify-around items-center text-xs -space-x-px rounded-md lg:hidden">
                     {categories.map((category, index) => (
                         <button
                             key={category}
                             onClick={() => setCategoryIndex(index)}
-                            className={`px-5 py-3 font-medium border rounded-l-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75 ${
+                            className={`px-5 py-3 font-medium border rounded-md hover:z-10 focus:outline-none focus:border-indigo-600 focus:z-10 hover:bg-[#55acee] active:opacity-75 ${
                                 index == categoryIndex ? "bg-[#55acee]" : ""
                             }`}
                             type="button"

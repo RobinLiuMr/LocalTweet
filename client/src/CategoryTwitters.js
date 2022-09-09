@@ -23,11 +23,9 @@ export default function CategoryTwitters({
                     <h3 className="mt-4 text-xl font-bold text-white">
                         {channel.name} @{channel.screen_name}
                     </h3>
+                    <p className="mt-1 text-sm text-gray-300">{channel.text}</p>
                     <p className="mt-1 text-sm text-gray-300">
-                        {channel.full_text}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-300">
-                        {channel.created_at}
+                        {channel.formatDate}
                     </p>
                 </a>
             ))}

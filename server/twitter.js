@@ -1,6 +1,7 @@
 const Twitter = require("twitter");
 const https = require("https");
 const { Key, Secret } = require("../secrets.json");
+const moment = require("moment");
 
 let bearer_token;
 let twitterClient;
@@ -77,10 +78,14 @@ async function getTweets({ screen_name, LIMIT = 3 }) {
 function filterData(tweets) {
     return tweets.map(
         ({ created_at, id_str, full_text, user: { name, screen_name } }) => {
+            const text = full_text.split("http")[0].trim();
+
+            const date = moment(created_at);
+            const formatDate = date.format("MMMM Do YYYY, HH:mm");
             return {
-                created_at,
+                formatDate,
                 id_str,
-                full_text,
+                text,
                 name,
                 screen_name,
             };
