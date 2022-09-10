@@ -47,15 +47,15 @@ export default function Homepage() {
     }
 
     return (
-        <div className="bg-gray-900 pb-32">
-            <div className="px-4 pt-8 mx-auto max-w-screen-xl sm:px-6 lg:px-8">
+        <div className="bg-gray-900 min-h-screen flex flex-col justify-between">
+            <header className="px-4 pt-8 max-w-screen-xl sm:px-6 lg:px-8 lg:self-center lg:w-full">
                 <div className="flex flex-row justify-start items-center bg-gray-700 rounded-full pl-4">
                     <img className="w-8 h-8" src="/twitter-48.png"></img>
                     {/* modified on https://www.hyperui.dev/components/application-ui/inputs */}
 
                     <form onSubmit={onSearch} className="relative w-full mr-6">
                         <input
-                            className="w-full py-3 pl-3 pr-12 text-sm rounded bg-gray-700"
+                            className="w-full py-3 pl-3 pr-12 text-sm rounded text-[#55acee] bg-gray-700"
                             id="city"
                             value={searchTerm}
                             onChange={handelChange}
@@ -64,9 +64,9 @@ export default function Homepage() {
                         />
                     </form>
                 </div>
-            </div>
+            </header>
 
-            <main className="text-white bg-gray-900">
+            <div className="text-white bg-gray flex-1">
                 {/* modified on https://www.hyperui.dev/components/application-ui/button-groups */}
                 <div className="px-4 py-4 max-w-screen-xl flex justify-between items-center text-xs -space-x-px rounded-md lg:hidden">
                     {categories.map((category, index) => (
@@ -132,7 +132,11 @@ export default function Homepage() {
                         </div>
                     </div>
                 </section>
-            </main>
+            </div>
+
+            <footer className="h-16 text-gray-500 px-4 py-4  max-w-screen-xl sm:px-6 lg:px-8 lg:self-center lg:w-full text-base">
+                &copy; Highly Productive Web Developer LIU, BIN AKA Robin.
+            </footer>
         </div>
     );
 }
